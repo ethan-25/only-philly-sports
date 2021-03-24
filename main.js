@@ -19,21 +19,38 @@ nhl = `https://statsapi.web.nhl.com/api/v1/schedule?startDate=${today}&endDate=$
 
 console.log(today);
 
-function timeConvertor(time) {
-  var PM = time.match("PM") ? true : false;
+// Function to convert the 24 hour time to 12 hour time.
 
-  time = time.split(":");
-  var min = time[1];
+function timeTo12(time) {
+  var hours = time.slice(0, 2);
+  var mins = time.slice(3, 5);
 
-  if (PM) {
-    var hour = 12 + parseInt(time[0], 10);
-    var sec = time[2].replace("PM", "");
+  if (Number(hours) >= 12) {
+    var abb = "PM";
   } else {
-    var hour = time[0];
-    var sec = time[2].replace("AM", "");
+    var abb = "AM";
   }
+  var hours = ((Number(hours) + 11) % 12) + 1;
 
-  console.log(hour + ":" + min + ":" + sec);
+  console.log(`${hours}:${mins} ${abb}`);
+}
+
+document.getElementById("toSettings").addEventListener("click", toggleSettings);
+
+function toggleSettings() {
+  var mainPage = document.getElementById("main");
+  var settingsPage = document.getElementById("settings-page");
+  settingsPage.style.display = "block";
+  mainPage.style.display = "none";
+}
+
+document.getElementById("toMain").addEventListener("click", toggleMain);
+
+function toggleMain() {
+  var mainPage = document.getElementById("main");
+  var settingsPage = document.getElementById("settings-page");
+  settingsPage.style.display = "none";
+  mainPage.style.display = "block";
 }
 
 // Fetching Sixers games for today
@@ -78,15 +95,13 @@ fetch(nba)
           }
         } else {
           if (nbagames[game].gameDuration.minutes == "") {
+            var time = new Date(nbagames[game].startTimeUTC);
+            var time24 = time.toString().slice(16, 21);
+
             document.getElementById(
               "nba-score"
             ).textContent = `${away.triCode} @ ${home.triCode}`;
-            document.getElementById("nba-status").textContent = `${nbagames[
-              game
-            ].homeStartTime.slice(0, 2)}:${nbagames[game].homeStartTime.slice(
-              2,
-              4
-            )} EST`;
+            document.getElementById("nba-status").textContent = `${time24} EST`;
           } else {
             document.getElementById(
               "nba-score"
@@ -140,7 +155,7 @@ function NHLMLB(api) {
               ).src = `https://www.mlbstatic.com/team-logos/team-cap-on-light/${home.id}.svg`;
             }
 
-            if (apigames[game].status.detailedGameState == "Live") {
+            if (apigames[game].status.detailedState == "In Progress") {
               // If the game is live, continuously update the score
 
               linescore = apigames[game].linescore;
@@ -180,9 +195,10 @@ function NHLMLB(api) {
                 ).textContent = `${awayScore} - ${homeScore}`;
               }
             } else {
-              // Otherwise, set the time for the next upcoming game
+              // Otherwise, set the time for today's game
 
-              var time = apigames[game].gameDate.slice(11, 16);
+              var time = new Date(apigames[game].gameDate);
+              var time24 = time.toString().slice(16, 21);
 
               if (api == nhl) {
                 document.getElementById(
@@ -190,14 +206,14 @@ function NHLMLB(api) {
                 ).textContent = `${away.abbreviation} @ ${home.abbreviation}`;
                 document.getElementById(
                   "nhl-status"
-                ).textContent = `${time} EST`;
+                ).textContent = `${time.toString()}`;
               } else {
                 document.getElementById(
                   "mlb-score"
                 ).textContent = `${away.abbreviation} @ ${home.abbreviation}`;
                 document.getElementById(
                   "mlb-status"
-                ).textContent = `${time} EST`;
+                ).textContent = `${time24} EST`;
               }
             }
           } else if (found == false) {

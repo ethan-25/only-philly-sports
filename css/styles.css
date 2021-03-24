@@ -1,6 +1,6 @@
-#main {
+body {
   font-family: "Courier New", Courier, monospace;
-  min-width: 15rem;
+  min-width: 16rem;
 }
 h3 {
   color: grey;
@@ -10,11 +10,12 @@ h3 {
   display: flex;
   align-items: center;
 }
-.info {
-  margin-right: auto;
-}
-.settings {
+#settings {
   margin-left: auto;
+}
+
+.header-icon {
+  transition: 0.5s;
 }
 
 .gamestatus {
@@ -30,52 +31,48 @@ h3 {
   height: 3rem;
   margin: auto;
 }
-/*
-#eagles {
-  background-color: #004c54;
-  color: #a5acaf;
+
+/* Customize the label (the container) */
+.container {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 14px;
 }
 
-#sixers {
-  background-color: #006bb6;
-  color: #fff;
+/* Hide the browser's default checkbox */
+.container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
 }
 
-#phillies {
-  background-color: #e81828;
-  color: #002d72;
+/* Create a custom checkbox */
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 15px;
+  width: 15px;
+  background-color: #eee;
 }
 
-#flyers {
-  background-color: #f74902;
-  color: #000000;
+/* On mouse-over, add a grey background color */
+.container:hover input ~ .checkmark {
+  background-color: #ccc;
 }
-*/
+
+/* When the checkbox is checked, add a blue background */
+.container input:checked ~ .checkmark {
+  background-color: #006dd6;
+}
+
 /* Animations */
 
-.info:hover {
-  animation: flip 2s linear infinite;
-  transition: 0.5s;
-}
-
-.settings:hover {
-  animation: spin 2s linear infinite;
-}
-
-@keyframes flip {
-  from {
-    transform: rotateY(0deg);
-  }
-  to {
-    transform: rotateY(360deg);
-  }
-}
-
-@keyframes spin {
-  from {
-    animation: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+button:hover {
+  cursor: pointer;
 }
