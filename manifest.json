@@ -1,6 +1,6 @@
 {
     "name": "Only Philly Sports",
-    "version": "0.0.0.1",
+    "version": "1.0.0.0",
     "manifest_version": 2,
     "description": "Get notifications, times, and scores for today's Philadelphia sports games.",
     "icons": {
