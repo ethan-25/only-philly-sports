@@ -38,3 +38,32 @@
   background-color: #f74902;
   color: #000000;
 }
+
+/* Animations */
+
+.info:hover {
+  animation: flip 2s linear infinite;
+  transition: 0.5s;
+}
+
+.settings:hover {
+  animation: spin 2s linear infinite;
+}
+
+@keyframes flip {
+  from {
+    transform: rotateY(0deg);
+  }
+  to {
+    transform: rotateY(360deg);
+  }
+}
+
+@keyframes spin {
+  from {
+    animation: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
