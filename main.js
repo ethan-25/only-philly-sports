@@ -82,8 +82,15 @@ fetch(nhl)
             nhlgames[game].teams.home.team.teamName == "Flyers" ||
             nhlgames[game].teams.away.team.teamName == "Flyers"
           ) {
-            var away = nhlgames[game].teams.away.team.teamName;
-            var home = nhlgames[game].teams.home.team.teamName;
+            var away = nhlgames[game].teams.away.team;
+            var home = nhlgames[game].teams.home.team;
+
+            document.getElementById(
+              "nhl-away-logo"
+            ).src = `https://www-league.nhlstatic.com/images/logos/teams-current-primary-light/${away.id}.svg`;
+            document.getElementById(
+              "nhl-home-logo"
+            ).src = `https://www-league.nhlstatic.com/images/logos/teams-current-primary-light/${home.id}.svg`;
 
             if (nhlgames[game].status.abstractGameState == "Live") {
               // If the game is live, continuously update the score
@@ -92,7 +99,7 @@ fetch(nhl)
 
               document.getElementById(
                 "nhl-score"
-              ).textContent = `${away} ${linescore.teams.away.goals} - ${linescore.teams.home.goals} ${home}`;
+              ).textContent = `${away.teamName} ${linescore.teams.away.goals} - ${linescore.teams.home.goals} ${home.teamName}`;
 
               document.getElementById(
                 "nhl-status"
@@ -103,10 +110,21 @@ fetch(nhl)
               var awayScore = nhlgames[game].teams.away.score;
               var homeScore = nhlgames[game].teams.home.score;
 
+              var awayRecord = nhlgames[game].teams.away.leagueRecord;
+              var homeRecord = nhlgames[game].teams.home.leagueRecord;
+
+              document.getElementById("nhl-status").textContent = "FINAL";
               document.getElementById(
                 "nhl-score"
-              ).textContent = `${away} ${awayScore} - ${homeScore} ${home}`;
-              document.getElementById("nhl-status").textContent = "FINAL";
+              ).textContent = `${awayScore} - ${homeScore}`;
+              /*
+              document.getElementById(
+                "nhl-away-record"
+              ).textContent = `(${awayRecord.wins} - ${awayRecord.losses})`;
+              document.getElementById(
+                "nhl-home-record"
+              ).textContent = `(${homeRecord.wins} - ${homeRecord.losses})`;
+              */
             } else {
               // Otherwise, set the time for the next upcoming game
 

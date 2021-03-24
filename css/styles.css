@@ -1,8 +1,11 @@
 #main {
   font-family: "Courier New", Courier, monospace;
-  min-width: 275px;
+  min-width: 15rem;
 }
-
+h3 {
+  color: grey;
+  border-bottom: 1px solid grey;
+}
 .header {
   display: flex;
   align-items: center;
@@ -14,11 +17,20 @@
   margin-left: auto;
 }
 
-.card {
-  min-height: 50px;
-  border-radius: 5px;
+.gamestatus {
+  text-align: center;
 }
 
+.score-container {
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  height: 3.5rem;
+  margin: auto;
+}
+/*
 #eagles {
   background-color: #004c54;
   color: #a5acaf;
@@ -38,7 +50,7 @@
   background-color: #f74902;
   color: #000000;
 }
-
+*/
 /* Animations */
 
 .info:hover {
