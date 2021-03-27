@@ -20,7 +20,7 @@ nhl = `https://statsapi.web.nhl.com/api/v1/schedule?startDate=${today}&endDate=$
 console.log(today);
 
 // Function to convert the 24 hour time to 12 hour time.
-
+/** 
 function timeTo12(time) {
   var hours = time.slice(0, 2);
   var mins = time.slice(3, 5);
@@ -52,7 +52,7 @@ function toggleMain() {
   settingsPage.style.display = "none";
   mainPage.style.display = "block";
 }
-
+*/
 // Fetching Sixers games for today
 
 fetch(nba)
@@ -155,7 +155,10 @@ function NHLMLB(api) {
               ).src = `https://www.mlbstatic.com/team-logos/team-cap-on-light/${home.id}.svg`;
             }
 
-            if (apigames[game].status.detailedState == "In Progress") {
+            if (
+              apigames[game].status.detailedState == "In Progress" ||
+              apigames[game].status.detailedState == "In Progress - Critical"
+            ) {
               // If the game is live, continuously update the score
 
               linescore = apigames[game].linescore;
@@ -206,7 +209,7 @@ function NHLMLB(api) {
                 ).textContent = `${away.abbreviation} @ ${home.abbreviation}`;
                 document.getElementById(
                   "nhl-status"
-                ).textContent = `${time.toString()}`;
+                ).textContent = `${time24} EST`;
               } else {
                 document.getElementById(
                   "mlb-score"
@@ -221,7 +224,7 @@ function NHLMLB(api) {
               document.getElementById("nhl-score").textContent =
                 "No games found.";
             } else {
-              document.getElementById("nhl-score").textContent =
+              document.getElementById("mlb-score").textContent =
                 "No games found.";
             }
           }
