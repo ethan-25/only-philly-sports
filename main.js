@@ -78,23 +78,23 @@ fetch(nba)
           "nba-home-logo"
         ).src = `https://cdn.nba.com/logos/nba/${home.teamId}/primary/L/logo.svg`;
 
-        if (nbagames[game].isGameActivated == "true") {
-          // linescore = nbagames[game].linescore;
-
+        if (nbagames[game].isGameActivated == true) {
           document.getElementById(
             "nba-score"
           ).textContent = `${away.triCode} ${away.score} - ${home.score} ${home.triCode}`;
 
           document.getElementById(
             "nba-status"
-          ).textContent = `Quarter ${nbagames[games].period.current} | ${linescore.currentPeriodTimeRemaining}`;
+          ).textContent = `Q${nbagames[game].period.current} | ${nbagames[game].clock}`;
           document.getElementById("nba-status").style.color = "red";
 
-          if (nbagames[game].isHalftime == "true") {
+          if (nbagames[game].isHalftime == true) {
             document.getElementById("nba-status").textContent = "Half";
+          } else if (nbagames[game].period.isEndOfPeriod == true) {
+            document.getElementById("nba-status").textContent = "End";
           }
         } else {
-          if (nbagames[game].gameDuration.minutes == "") {
+          if (nbagames[game].gameDuration.minutes == "0") {
             var time = new Date(nbagames[game].startTimeUTC);
             var time24 = time.toString().slice(16, 21);
 
