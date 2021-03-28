@@ -34,13 +34,13 @@ function timeTo12(time) {
 
   console.log(`${hours}:${mins} ${abb}`);
 }
+*/
+document.getElementById("toRecords").addEventListener("click", toggleRecords);
 
-document.getElementById("toSettings").addEventListener("click", toggleSettings);
-
-function toggleSettings() {
+function toggleRecords() {
   var mainPage = document.getElementById("main");
-  var settingsPage = document.getElementById("settings-page");
-  settingsPage.style.display = "block";
+  var recordsPage = document.getElementById("records-page");
+  recordsPage.style.display = "block";
   mainPage.style.display = "none";
 }
 
@@ -48,11 +48,11 @@ document.getElementById("toMain").addEventListener("click", toggleMain);
 
 function toggleMain() {
   var mainPage = document.getElementById("main");
-  var settingsPage = document.getElementById("settings-page");
-  settingsPage.style.display = "none";
+  var recordsPage = document.getElementById("records-page");
+  recordsPage.style.display = "none";
   mainPage.style.display = "block";
 }
-*/
+
 // Fetching Sixers games for today
 
 fetch(nba)
@@ -88,10 +88,8 @@ fetch(nba)
           ).textContent = `Q${nbagames[game].period.current} | ${nbagames[game].clock}`;
           document.getElementById("nba-status").style.color = "red";
 
-          if (nbagames[game].isHalftime == true) {
+          if (nbagames[game].period.isHalftime == true) {
             document.getElementById("nba-status").textContent = "Half";
-          } else if (nbagames[game].period.isEndOfPeriod == true) {
-            document.getElementById("nba-status").textContent = "End";
           }
         } else {
           if (nbagames[game].gameDuration.minutes == "0") {
@@ -165,7 +163,7 @@ function NHLMLB(api) {
               if (api == nhl) {
                 document.getElementById(
                   "nhl-score"
-                ).textContent = `${away.teamName} ${linescore.teams.away.goals} - ${linescore.teams.home.goals} ${home.teamName}`;
+                ).textContent = `${away.abbreviation} ${linescore.teams.away.goals} - ${linescore.teams.home.goals} ${home.abbreviation}`;
                 document.getElementById(
                   "nhl-status"
                 ).textContent = `Period ${linescore.currentPeriod} | ${linescore.currentPeriodTimeRemaining}`;
