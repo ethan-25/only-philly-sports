@@ -19,40 +19,6 @@ nhl = `https://statsapi.web.nhl.com/api/v1/schedule?startDate=${today}&endDate=$
 
 console.log(today);
 
-// Function to convert the 24 hour time to 12 hour time.
-/** 
-function timeTo12(time) {
-  var hours = time.slice(0, 2);
-  var mins = time.slice(3, 5);
-
-  if (Number(hours) >= 12) {
-    var abb = "PM";
-  } else {
-    var abb = "AM";
-  }
-  var hours = ((Number(hours) + 11) % 12) + 1;
-
-  console.log(`${hours}:${mins} ${abb}`);
-}
-*/
-document.getElementById("toRecords").addEventListener("click", toggleRecords);
-
-function toggleRecords() {
-  var mainPage = document.getElementById("main");
-  var recordsPage = document.getElementById("records-page");
-  recordsPage.style.display = "block";
-  mainPage.style.display = "none";
-}
-
-document.getElementById("toMain").addEventListener("click", toggleMain);
-
-function toggleMain() {
-  var mainPage = document.getElementById("main");
-  var recordsPage = document.getElementById("records-page");
-  recordsPage.style.display = "none";
-  mainPage.style.display = "block";
-}
-
 // Fetching Sixers games for today
 
 fetch(nba)
@@ -147,12 +113,11 @@ function NHLMLB(api) {
             } else {
               document.getElementById(
                 "mlb-away-logo"
-              ).src = `https://www.mlbstatic.com/team-logos/team-cap-on-light/${away.id}.svg`;
+              ).src = `https://www.mlbstatic.com/team-logos/${away.id}.svg`;
               document.getElementById(
                 "mlb-home-logo"
-              ).src = `https://www.mlbstatic.com/team-logos/team-cap-on-light/${home.id}.svg`;
+              ).src = `https://www.mlbstatic.com/team-logos/${home.id}.svg`;
             }
-
             if (
               apigames[game].status.detailedState == "In Progress" ||
               apigames[game].status.detailedState == "In Progress - Critical"

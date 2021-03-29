@@ -5,38 +5,17 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="css/styles.css" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans&display=swap"
+      rel="stylesheet"
+    />
     <title>Only Philly Sports</title>
   </head>
   <body>
     <div id="main">
       <div class="header">
         <h2><u>Only Philly Sports</u></h2>
-
-        <div id="records" class="header-icon">
-          <button id="toRecords">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="icon icon-tabler icon-tabler-atom-2"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              stroke-width="1.5"
-              stroke="#000000"
-              fill="none"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-              <circle cx="12" cy="12" r="3" />
-              <line x1="12" y1="21" x2="12" y2="21.01" />
-              <line x1="3" y1="9" x2="3" y2="9.01" />
-              <line x1="21" y1="9" x2="21" y2="9.01" />
-              <path d="M8 20.1a9 9 0 0 1 -5 -7.1" />
-              <path d="M16 20.1a9 9 0 0 0 5 -7.1" />
-              <path d="M6.2 5a9 9 0 0 1 11.4 0" />
-            </svg>
-          </button>
-        </div>
       </div>
 
       <!-- NFL score card -->
@@ -46,9 +25,9 @@
         <p id="nfl-status" class="gamestatus"></p>
         <div class="score-container">
           <br />
-          <img id="nfl-away-logo" class="logo" />
+          <img id="nfl-away-logo" class="logo" src="icons/placeholder.png" />
           <span id="nfl-score">Offseason.</span>
-          <img id="nfl-home-logo" class="logo" />
+          <img id="nfl-home-logo" class="logo" src="icons/placeholder.png" />
         </div>
       </div>
 
@@ -59,9 +38,9 @@
         <p id="nba-status" class="gamestatus"></p>
         <div class="score-container">
           <br />
-          <img id="nba-away-logo" class="logo" />
+          <img id="nba-away-logo" class="logo" src="icons/placeholder.png" />
           <span id="nba-score">Searching...</span>
-          <img id="nba-home-logo" class="logo" />
+          <img id="nba-home-logo" class="logo" src="icons/placeholder.png" />
         </div>
       </div>
 
@@ -72,9 +51,9 @@
         <p id="mlb-status" class="gamestatus"></p>
         <div class="score-container">
           <br />
-          <img id="mlb-away-logo" class="logo" />
+          <img id="mlb-away-logo" class="logo" src="icons/placeholder.png" />
           <span id="mlb-score">Searching...</span>
-          <img id="mlb-home-logo" class="logo" />
+          <img id="mlb-home-logo" class="logo" src="icons/placeholder.png" />
         </div>
       </div>
 
@@ -85,81 +64,13 @@
         <p id="nhl-status" class="gamestatus"></p>
         <div class="score-container">
           <br />
-          <img id="nhl-away-logo" class="logo" />
+          <img id="nhl-away-logo" class="logo" src="icons/placeholder.png" />
           <span id="nhl-score">Searching...</span>
-          <img id="nhl-home-logo" class="logo" />
+          <img id="nhl-home-logo" class="logo" src="icons/placeholder.png" />
         </div>
       </div>
     </div>
 
-    <div id="records-page" style="display: none">
-      <div class="header">
-        <h2><u>Team Records</u></h2>
-        <div id="records" class="header-icon">
-          <button id="toMain">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="icon icon-tabler icon-tabler-caret-left"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              stroke-width="1.5"
-              stroke="#000000"
-              fill="none"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-              <path d="M18 15l-6 -6l-6 6h12" transform="rotate(270 12 12)" />
-            </svg>
-          </button>
-        </div>
-      </div>
-
-      <div class="card">
-        <h3>NFL</h3>
-        <div class="score-container">
-          <img
-            src="https://static.www.nfl.com/t_q-best/league/api/clubs/logos/PHI"
-            class="logo"
-          />
-          <span id="nfl-record"></span>
-        </div>
-      </div>
-
-      <div class="card">
-        <h3>NBA</h3>
-        <div class="score-container">
-          <img
-            src="https://cdn.nba.com/logos/nba/1610612755/primary/L/logo.svg"
-            class="logo"
-          />
-          <span id="nba-record"></span>
-        </div>
-      </div>
-
-      <div class="card">
-        <h3>MLB</h3>
-        <div class="score-container">
-          <img
-            src="https://www.mlbstatic.com/team-logos/team-cap-on-light/143.svg"
-            class="logo"
-          />
-          <span id="mlb-record"></span>
-        </div>
-      </div>
-
-      <div class="card">
-        <h3>NHL</h3>
-        <div class="score-container">
-          <img
-            src="https://www-league.nhlstatic.com/images/logos/teams-current-primary-light/4.svg"
-            class="logo"
-          />
-          <span id="nhl-record"></span>
-        </div>
-      </div>
-    </div>
     <script type="text/javascript" src="main.js"></script>
   </body>
 </html>
