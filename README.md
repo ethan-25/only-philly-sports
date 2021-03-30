@@ -11,7 +11,7 @@ Only Philly Sports
 
 **A clean, easy way to get scores and times from today's Philadelphia sports games.**
 
-Being an avid Philadelphia sports fan myself, I check the scores and times for upcoming games each and every day. I want to be able to save time and not have to constantly open a new tab and google "sixers" or "eagles" just to remind myself that a game is scheduled today. Luckily, I made an MS Edge add-on just for that! 
+Being an avid Philadelphia sports fan myself, I check the scores and times for upcoming games each and every day. I want to be able to save time and not have to constantly open a new tab and google "sixers" or "eagles" just to remind myself that a game is scheduled today. Luckily, I made an MS Edge add-on to avoid this! 
 
 ***
 
