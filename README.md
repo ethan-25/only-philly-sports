@@ -26,6 +26,7 @@ Being an avid Philadelphia sports fan myself, I check the scores and times for u
 ## Screenshots
 
 ![image](https://user-images.githubusercontent.com/65685915/112993383-28487c80-9137-11eb-930a-ccc4e099b536.png)
+![image](https://user-images.githubusercontent.com/65685915/113345041-e159b300-92ff-11eb-8932-eeba2d1a62ed.png)
 
 ***
 
