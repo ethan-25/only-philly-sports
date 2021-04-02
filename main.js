@@ -13,12 +13,47 @@ nbaToday = yyyy + mm + dd;
 // API Endpoints for scheduled games in the NFL, NBA, MLB, and NHL
 nba = `http://data.nba.net/prod/v2/${nbaToday}/scoreboard.json`;
 
-mlb = `https://bdfed.stitch.mlbinfra.com/bdfed/transform-mlb-mini-scoreboard?stitch_env=prod&sortTemplate=4&sportId=1&startDate=${today}&endDate=${today}&gameType=E&&gameType=S&language=en&leagueId=103&&leagueId=104`;
+mlb = `https://statsapi.mlb.com/api/v1/schedule?lang=en&sportId=1&hydrate=team(venue(timezone)),venue(timezone),game(seriesStatus,seriesSummary,tickets,promotions,sponsorships,content(summary,media(epg))),seriesStatus,seriesSummary,linescore,tickets,event(tickets),radioBroadcasts,broadcasts(all)&season=2021&startDate=${today}&endDate=${today}&teamId=143&eventTypes=primary&scheduleTypes=games,events,xref`;
+// https://bdfed.stitch.mlbinfra.com/bdfed/transform-mlb-mini-scoreboard?stitch_env=prod&sortTemplate=4&sportId=1&startDate=2021-04-01&endDate=2021-04-01&teamId=143&gameType=R&language=en&leagueId=103&&leagueId=104
 
-nhl = `https://statsapi.web.nhl.com/api/v1/schedule?startDate=${today}&endDate=${today}&hydrate=team,linescore,broadcasts(all),tickets,game(content(media(epg)),seriesSummary),radioBroadcasts,metadata,seriesSummary(series)&site=en_nhl&teamId=&gameType=&timecode=`;
+nhl = `https://statsapi.web.nhl.com/api/v1/schedule?startDate=${today}&endDate=${today}&hydrate=team,linescore,broadcasts(all),tickets,game(content(media(epg)),seriesSummary),radioBroadcasts,metadata,seriesSummary(series)&site=en_nhl&teamId=4&gameType=&timecode=`;
 
 console.log(today);
 
+// Function to convert the 24 hour time to 12 hour time.
+/** 
+function timeTo12(time) {
+  var hours = time.slice(0, 2);
+  var mins = time.slice(3, 5);
+
+  if (Number(hours) >= 12) {
+    var abb = "PM";
+  } else {
+    var abb = "AM";
+  }
+  var hours = ((Number(hours) + 11) % 12) + 1;
+
+  console.log(`${hours}:${mins} ${abb}`);
+}
+
+document.getElementById("toRecords").addEventListener("click", toggleRecords);
+
+function toggleRecords() {
+  var mainPage = document.getElementById("main");
+  var recordsPage = document.getElementById("records-page");
+  recordsPage.style.display = "block";
+  mainPage.style.display = "none";
+}
+
+document.getElementById("toMain").addEventListener("click", toggleMain);
+
+function toggleMain() {
+  var mainPage = document.getElementById("main");
+  var recordsPage = document.getElementById("records-page");
+  recordsPage.style.display = "none";
+  mainPage.style.display = "block";
+}
+*/
 // Fetching Sixers games for today
 
 fetch(nba)
@@ -58,7 +93,7 @@ fetch(nba)
             document.getElementById("nba-status").textContent = "Half";
           }
         } else {
-          if (nbagames[game].gameDuration.minutes == "0") {
+          if (nbagames[game].gameDuration.minutes == "") {
             var time = new Date(nbagames[game].startTimeUTC);
             var time24 = time.toString().slice(16, 21);
 
@@ -93,15 +128,15 @@ function NHLMLB(api) {
         var apigames = apidates[date].games;
 
         for (var game in apigames) {
+          var away = apigames[game].teams.away.team;
+          var home = apigames[game].teams.home.team;
+
           if (
             // If the Flyers or Phils are playing among today's scheduled games, set the names of home and away team
-            apigames[game].teams.home.team.abbreviation == "PHI" ||
-            apigames[game].teams.away.team.abbreviation == "PHI"
+            home.abbreviation == "PHI" ||
+            away.abbreviation == "PHI"
           ) {
             var found = true;
-
-            var away = apigames[game].teams.away.team;
-            var home = apigames[game].teams.home.team;
 
             if (api == nhl) {
               document.getElementById(
@@ -140,7 +175,7 @@ function NHLMLB(api) {
 
                 document.getElementById(
                   "mlb-status"
-                ).textContent = `${linescore.inningState} of the ${linescore.currentInningOrdinal}`;
+                ).textContent = `${linescore.inningState} ${linescore.currentInningOrdinal}`;
                 document.getElementById("mlb-status").style.color = "red";
               }
             } else if (apigames[game].status.abstractGameState == "Final") {
@@ -182,15 +217,14 @@ function NHLMLB(api) {
                 ).textContent = `${time24} EST`;
               }
             }
-          } else if (found == false) {
-            if (api == nhl) {
-              document.getElementById("nhl-score").textContent =
-                "No games found.";
-            } else {
-              document.getElementById("mlb-score").textContent =
-                "No games found.";
-            }
           }
+        }
+      }
+      if (found == false) {
+        if (api == nhl) {
+          document.getElementById("nhl-score").textContent = "No games found.";
+        } else {
+          document.getElementById("mlb-score").textContent = "No games found.";
         }
       }
     });
