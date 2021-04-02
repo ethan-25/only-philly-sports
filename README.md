@@ -18,7 +18,7 @@ Being an avid Philadelphia sports fan myself, I check the scores and times for u
 ## Features
 
 * Scheduled game times for the Sixers, Phillies, and Flyers
-* Live scores are updated
+* Live scores are updated after a refresh
 * Final scores posted at the end of each game
 
 ***
