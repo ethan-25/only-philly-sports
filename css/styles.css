@@ -11,6 +11,9 @@ h3 {
   display: flex;
   align-items: center;
 }
+#records {
+  margin-left: auto;
+}
 
 .header-icon {
   transition: 0.5s;
