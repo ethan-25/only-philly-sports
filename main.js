@@ -13,9 +13,10 @@ nbaToday = yyyy + mm + dd;
 // API Endpoints for scheduled games in the NFL, NBA, MLB, and NHL
 nba = `http://data.nba.net/prod/v2/${nbaToday}/scoreboard.json`;
 
-mlb = `https://statsapi.mlb.com/api/v1/schedule?lang=en&sportId=1&hydrate=team(venue(timezone)),venue(timezone),game(seriesStatus,seriesSummary,tickets,promotions,sponsorships,content(summary,media(epg))),seriesStatus,seriesSummary,linescore,tickets,event(tickets),radioBroadcasts,broadcasts(all)&season=2021&startDate=${today}&endDate=${today}&teamId=143&eventTypes=primary&scheduleTypes=games,events,xref`;
+mlb = `https://bdfed.stitch.mlbinfra.com/bdfed/transform-mlb-mini-scoreboard?stitch_env=prod&sortTemplate=4&sportId=1&teamId=143&startDate=${today}&endDate=${today}&language=en&leagueId=103&&leagueId=104`;
+//`https://statsapi.mlb.com/api/v1/schedule?sportId=1&gamePk=632189&hydrate=team,linescore,game(content(summary,media(epg)),tickets)&useLatestGames=true&language=en&flipDate=${today}`;
 
-nhl = `https://statsapi.web.nhl.com/api/v1/schedule?startDate=${today}&endDate=${today}&hydrate=team,linescore,broadcasts(all),tickets,game(content(media(epg)),seriesSummary),radioBroadcasts,metadata,seriesSummary(series)&site=en_nhl&teamId=4&gameType=&timecode=`;
+nhl = `https://statsapi.web.nhl.com/api/v1/schedule?flipDate=${today}&useLatestGames=true&hydrate=team(),linescore,game(),&site=en_nhl&teamId=4&timecode=`;
 
 console.log(`Fetching Philadelphia games for today, ${today}`);
 
@@ -173,7 +174,7 @@ function NHLMLB(api) {
             ) {
               linescore = apigames[game].linescore;
               if (api == nhl) {
-                // If the API is NHL, set up the NHL html
+                // If the API is NHL, set up the NHL score and status
                 document.getElementById("nhl-status").style.color = "red";
                 document.getElementById(
                   "nhl-score"
@@ -182,7 +183,7 @@ function NHLMLB(api) {
                   "nhl-status"
                 ).textContent = `Period ${linescore.currentPeriod} | ${linescore.currentPeriodTimeRemaining}`;
               } else {
-                // Else, set up the MLB html
+                // Else, set up the MLB score and status
                 document.getElementById("mlb-status").style.color = "red";
                 document.getElementById(
                   "mlb-score"
@@ -205,7 +206,10 @@ function NHLMLB(api) {
                   "mlb-score"
                 ).textContent = `${away.abbreviation} @ ${home.abbreviation}`;
               }
-            } else if (apigames[game].status.detailedState == "Final") {
+            } else if (
+              apigames[game].status.detailedState == "Game Over" ||
+              apigames[game].status.detailedState == "Final"
+            ) {
               // Else, if the game is done, show the final scores
 
               var awayScore = apigames[game].teams.away.score;
@@ -224,7 +228,6 @@ function NHLMLB(api) {
               }
             } else {
               // Otherwise, set the time for today's game
-
               var time = new Date(apigames[game].gameDate);
               var time24 = time.toString().slice(16, 21);
 
