@@ -16,7 +16,7 @@ nba = `http://data.nba.net/prod/v2/${nbaToday}/scoreboard.json`;
 mlb = `https://bdfed.stitch.mlbinfra.com/bdfed/transform-mlb-mini-scoreboard?stitch_env=prod&sortTemplate=4&sportId=1&teamId=143&startDate=${today}&endDate=${today}&language=en&leagueId=103&&leagueId=104`;
 //`https://statsapi.mlb.com/api/v1/schedule?sportId=1&gamePk=632189&hydrate=team,linescore,game(content(summary,media(epg)),tickets)&useLatestGames=true&language=en&flipDate=${today}`;
 
-nhl = `https://statsapi.web.nhl.com/api/v1/schedule?flipDate=${today}&useLatestGames=true&hydrate=team(),linescore,game(),&site=en_nhl&teamId=4&timecode=`;
+nhl = `https://statsapi.web.nhl.com/api/v1/schedule?startDate=${today}&endDate=${today}&useLatestGames=true&hydrate=team(),linescore,game(),&site=en_nhl&teamId=4&timecode=`;
 
 console.log(`Fetching Philadelphia games for today, ${today}`);
 
