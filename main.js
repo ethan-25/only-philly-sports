@@ -93,7 +93,7 @@ fetch(nba)
           if (nbagames[game].gameDuration.minutes == "") {
             document.getElementById(
               "nba-status"
-            ).textContent = `Quarter ${nbagames[game].period.current} | STARTING`;
+            ).textContent = `Quarter ${nbagames[game].period.current} | Starting`;
           } else {
             document.getElementById(
               "nba-status"
