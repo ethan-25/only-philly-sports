@@ -38,3 +38,4 @@ Being an avid Philadelphia sports fan myself, I check the scores and times for u
 * Settings Page
 * Team Standings Page
 * Better code
+* If no games are on for a team, set card display to 0
