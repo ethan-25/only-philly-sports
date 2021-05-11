@@ -35,6 +35,7 @@ Being an avid Philadelphia sports fan myself, I check the scores and times for u
 * MLB double-headers will not display correctly. It will only get info for the second game
 * Times are only in 24-hour format in EST
 * Scores reset after 00:00
+* If no games are found for a team, the score card will not appear.
 
 ***
 
