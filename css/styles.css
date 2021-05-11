@@ -3,13 +3,15 @@ body {
   font-family: "IBM Plex Sans", sans-serif;
   font-size: 16;
 }
+#main {
+  padding: 0.5em;
+}
 h3 {
   color: grey;
   border-bottom: 1px solid grey;
 }
 .header {
   display: flex;
-  align-items: center;
 }
 #records {
   margin-left: auto;

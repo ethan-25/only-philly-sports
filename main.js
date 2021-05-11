@@ -121,10 +121,11 @@ fetch(nba)
             document.getElementById("nba-status").textContent = "Final";
           }
         }
-      } else if (found == false) {
-        // If a game is not found, just say that no games were found
-        document.getElementById("nba-score").textContent = "No games found.";
       }
+    }
+    if (found == false) {
+      // If a game is not found, just say that no games were found
+      document.getElementById("nba").style.display = "none";
     }
   });
 
@@ -253,9 +254,9 @@ function NHLMLB(api) {
       if (found == false) {
         // If a Flyers or Phillies game is not found for today, just say no games were found
         if (api == nhl) {
-          document.getElementById("nhl-score").textContent = "No games found.";
+          document.getElementById("nhl").style.display = "none";
         } else {
-          document.getElementById("mlb-score").textContent = "No games found.";
+          document.getElementById("mlb").style.display = "none";
         }
       }
     });
