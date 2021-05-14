@@ -60,7 +60,6 @@ fetch(nba)
   .then((res) => res.json())
   .then((out) => {
     var nbagames = out.games;
-    var found = false;
 
     for (var game in nbagames) {
       // For each game in the JSON
@@ -69,7 +68,7 @@ fetch(nba)
         nbagames[game].hTeam.triCode == "PHI" ||
         nbagames[game].vTeam.triCode == "PHI"
       ) {
-        var found = true;
+        document.getElementById("nba").style.display = "block";
 
         var home = nbagames[game].hTeam;
         var away = nbagames[game].vTeam;
@@ -123,10 +122,6 @@ fetch(nba)
         }
       }
     }
-    if (found == false) {
-      // If a game is not found, just say that no games were found
-      document.getElementById("nba").style.display = "none";
-    }
   });
 
 // Function to fetch Phillies and Flyers games today
@@ -136,7 +131,6 @@ function NHLMLB(api) {
     .then((res) => res.json())
     .then((out) => {
       var apidates = out.dates;
-      var found = false;
 
       for (var date in apidates) {
         var apigames = apidates[date].games;
@@ -151,9 +145,8 @@ function NHLMLB(api) {
             home.abbreviation == "PHI" ||
             away.abbreviation == "PHI"
           ) {
-            var found = true;
-
             if (api == nhl) {
+              document.getElementById("nhl").style.display = "block";
               document.getElementById(
                 "nhl-away-logo"
               ).src = `https://www-league.nhlstatic.com/images/logos/teams-current-primary-light/${away.id}.svg`;
@@ -161,6 +154,7 @@ function NHLMLB(api) {
                 "nhl-home-logo"
               ).src = `https://www-league.nhlstatic.com/images/logos/teams-current-primary-light/${home.id}.svg`;
             } else {
+              document.getElementById("mlb").style.display = "block";
               document.getElementById(
                 "mlb-away-logo"
               ).src = `https://www.mlbstatic.com/team-logos/${away.id}.svg`;
@@ -249,14 +243,6 @@ function NHLMLB(api) {
               }
             }
           }
-        }
-      }
-      if (found == false) {
-        // If a Flyers or Phillies game is not found for today, just say no games were found
-        if (api == nhl) {
-          document.getElementById("nhl").style.display = "none";
-        } else {
-          document.getElementById("mlb").style.display = "none";
         }
       }
     });
