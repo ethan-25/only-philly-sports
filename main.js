@@ -1,6 +1,6 @@
 /* 
 Getting today's date and assign variables to it. Each variable will have a different date format because
-the NBA endpoint utilizes a different date format to request data for today compared to the other ones.
+the NBA endpoint utilizes a different date format to request data compared to the other ones.
 */
 var today = new Date();
 var dd = String(today.getDate()).padStart(2, "0");
@@ -14,10 +14,10 @@ nbaToday = yyyy + mm + dd;
 nba = `http://data.nba.net/prod/v2/${nbaToday}/scoreboard.json`;
 
 mlb = `https://statsapi.mlb.com/api/v1/schedule?sportId=1&teamId=143&hydrate=team,linescore,game(content(summary,media(epg)),tickets)&language=en&startDate=${today}&endDate=${today}`;
-//`https://statsapi.mlb.com/api/v1/schedule?sportId=1&gamePk=632189&hydrate=team,linescore,game(content(summary,media(epg)),tickets)&useLatestGames=true&language=en&flipDate=${today}`;
 
 nhl = `https://statsapi.web.nhl.com/api/v1/schedule?startDate=${today}&endDate=${today}&useLatestGames=true&hydrate=team(),linescore,game(),&site=en_nhl&teamId=4&timecode=`;
 
+// Logging today's date just to make sure everything's fine
 console.log(`Fetching Philadelphia games for today, ${today}`);
 
 // Function to convert the 24 hour time to 12 hour time.
@@ -126,7 +126,8 @@ fetch(nba)
 
 // Function to fetch Phillies and Flyers games today
 // Had to make a function because the JSON file format is the same for both api endpoints, would be more efficient to code this way
-function NHLMLB(api) {
+// 21 May 2021, Recently added a parameter called league so code is more efficient in updating scores & times
+function NHLMLB(api, league) {
   fetch(api)
     .then((res) => res.json())
     .then((out) => {
@@ -145,8 +146,11 @@ function NHLMLB(api) {
             home.abbreviation == "PHI" ||
             away.abbreviation == "PHI"
           ) {
+            // Also display the score card
+            document.getElementById(`${league}`).style.display = "block";
+
+            // Setting the logos. I wish they would have similar links to get them, but oh well
             if (api == nhl) {
-              document.getElementById("nhl").style.display = "block";
               document.getElementById(
                 "nhl-away-logo"
               ).src = `https://www-league.nhlstatic.com/images/logos/teams-current-primary-light/${away.id}.svg`;
@@ -154,7 +158,6 @@ function NHLMLB(api) {
                 "nhl-home-logo"
               ).src = `https://www-league.nhlstatic.com/images/logos/teams-current-primary-light/${home.id}.svg`;
             } else {
-              document.getElementById("mlb").style.display = "block";
               document.getElementById(
                 "mlb-away-logo"
               ).src = `https://www.mlbstatic.com/team-logos/${away.id}.svg`;
@@ -162,85 +165,53 @@ function NHLMLB(api) {
                 "mlb-home-logo"
               ).src = `https://www.mlbstatic.com/team-logos/${home.id}.svg`;
             }
+            // Updating text in the card based on game condition
             if (
-              // If the game is in progress, continuously update the score
+              // If the game is in progress, update the score
               apigames[game].status.detailedState == "In Progress" ||
               apigames[game].status.detailedState == "In Progress - Critical"
             ) {
               linescore = apigames[game].linescore;
-              if (api == nhl) {
-                // If the API is NHL, set up the NHL score and status
-                document.getElementById("nhl-status").style.color = "red";
-                document.getElementById(
-                  "nhl-score"
-                ).textContent = `${away.abbreviation} ${linescore.teams.away.goals} - ${linescore.teams.home.goals} ${home.abbreviation}`;
-                document.getElementById(
-                  "nhl-status"
-                ).textContent = `Period ${linescore.currentPeriod} | ${linescore.currentPeriodTimeRemaining}`;
-              } else {
-                // Else, set up the MLB score and status
-                document.getElementById("mlb-status").style.color = "red";
-                document.getElementById(
-                  "mlb-score"
-                ).textContent = `${away.abbreviation} ${linescore.teams.away.runs} - ${linescore.teams.home.runs} ${home.abbreviation}`;
 
-                document.getElementById(
-                  "mlb-status"
-                ).textContent = `${linescore.inningState} ${linescore.currentInningOrdinal}`;
-              }
+              document.getElementById(`${league}-status`).style.color = "red";
+              document.getElementById(
+                `${league}-status`
+              ).textContent = `Period ${linescore.currentPeriod} | ${linescore.currentPeriodTimeRemaining}`;
+              document.getElementById(
+                `${league}-score`
+              ).textContent = `${away.abbreviation} ${linescore.teams.away.goals} - ${linescore.teams.home.goals} ${home.abbreviation}`;
             } else if (apigames[game].status.detailedState == "Postponed") {
               // If game is postponed, indicate it is
-              if (api == nhl) {
-                document.getElementById("nhl-status").textContent = "Postponed";
-                document.getElementById(
-                  "nhl-score"
-                ).textContent = `${away.abbreviation} @ ${home.abbreviation}`;
-              } else {
-                document.getElementById("mlb-status").textContent = "Postponed";
-                document.getElementById(
-                  "mlb-score"
-                ).textContent = `${away.abbreviation} @ ${home.abbreviation}`;
-              }
+
+              document.getElementById(`${league}-status`).textContent =
+                "Postponed";
+              document.getElementById(
+                `${league}-score`
+              ).textContent = `${away.abbreviation} @ ${home.abbreviation}`;
             } else if (
               apigames[game].status.detailedState == "Game Over" ||
               apigames[game].status.detailedState == "Final"
             ) {
-              // Else, if the game is done, show the final scores
+              // If the game is over, show the final scores
 
               var awayScore = apigames[game].teams.away.score;
               var homeScore = apigames[game].teams.home.score;
 
-              if (api == nhl) {
-                document.getElementById("nhl-status").textContent = "Final";
-                document.getElementById(
-                  "nhl-score"
-                ).textContent = `${awayScore} - ${homeScore}`;
-              } else {
-                document.getElementById("mlb-status").textContent = "Final";
-                document.getElementById(
-                  "mlb-score"
-                ).textContent = `${awayScore} - ${homeScore}`;
-              }
+              document.getElementById(`${league}-status`).textContent = "Final";
+              document.getElementById(
+                `${league}-score`
+              ).textContent = `${awayScore} - ${homeScore}`;
             } else {
               // Otherwise, set the time for today's game
               var time = new Date(apigames[game].gameDate);
               var time24 = time.toString().slice(16, 21);
 
-              if (api == nhl) {
-                document.getElementById(
-                  "nhl-score"
-                ).textContent = `${away.abbreviation} @ ${home.abbreviation}`;
-                document.getElementById(
-                  "nhl-status"
-                ).textContent = `${time24} EST`;
-              } else {
-                document.getElementById(
-                  "mlb-score"
-                ).textContent = `${away.abbreviation} @ ${home.abbreviation}`;
-                document.getElementById(
-                  "mlb-status"
-                ).textContent = `${time24} EST`;
-              }
+              document.getElementById(
+                `${league}-status`
+              ).textContent = `${time24} EST`;
+              document.getElementById(
+                `${league}-score`
+              ).textContent = `${away.abbreviation} @ ${home.abbreviation}`;
             }
           }
         }
@@ -248,6 +219,6 @@ function NHLMLB(api) {
     });
 }
 
-// Call the above function with parameter api
-NHLMLB(mlb);
-NHLMLB(nhl);
+// Call the above function with appripriate parameters
+NHLMLB(mlb, "mlb");
+NHLMLB(nhl, "nhl");
