@@ -17,7 +17,7 @@ Being an avid Philadelphia sports fan myself, I check the scores and times for u
 
 ## Features
 
-* Scheduled game times for the Sixers, Phillies, and Flyers
+* Scheduled game times for the Sixers, Phillies, and Flyers (Eagles scores are a work in progress)
 * Live scores are updated after a refresh
 * Final scores posted at the end of each game
 
@@ -32,10 +32,10 @@ Being an avid Philadelphia sports fan myself, I check the scores and times for u
 
 ## Notes
 
-* MLB double-headers will not display correctly. It will only get info for the second game
+* Phillies double-headers will not display correctly. It will only get info for the second game
 * Times are only in 24-hour format in EST
-* Scores reset after 00:00
-* If no games are found for a team, the score card will not appear.
+* Scores reset at midnight
+* If no games are found for a team, the score card will not appear
 
 ***
 
