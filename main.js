@@ -174,12 +174,23 @@ function NHLMLB(api, league) {
               linescore = apigames[game].linescore;
 
               document.getElementById(`${league}-status`).style.color = "red";
-              document.getElementById(
-                `${league}-status`
-              ).textContent = `Period ${linescore.currentPeriod} | ${linescore.currentPeriodTimeRemaining}`;
-              document.getElementById(
-                `${league}-score`
-              ).textContent = `${away.abbreviation} ${linescore.teams.away.goals} - ${linescore.teams.home.goals} ${home.abbreviation}`;
+              if (league == "nhl") {
+                // NHL Score. Uses Period and Goals
+                document.getElementById(
+                  `${league}-status`
+                ).textContent = `Period ${linescore.currentPeriod} | ${linescore.currentPeriodTimeRemaining}`;
+                document.getElementById(
+                  `${league}-score`
+                ).textContent = `${away.abbreviation} ${linescore.teams.away.goals} - ${linescore.teams.home.goals} ${home.abbreviation}`;
+              } else {
+                // MLB Score. Uses Inning and Runs
+                document.getElementById(
+                  `${league}-status`
+                ).textContent = `${linescore.inningState} ${linescore.currentInningOrdinal}`;
+                document.getElementById(
+                  `${league}-score`
+                ).textContent = `${away.abbreviation} ${linescore.teams.away.runs} - ${linescore.teams.home.runs} ${home.abbreviation}`;
+              }
             } else if (apigames[game].status.detailedState == "Postponed") {
               // If game is postponed, indicate it is
 
