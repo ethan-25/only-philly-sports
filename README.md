@@ -43,6 +43,5 @@ Being an avid Philadelphia sports fan myself, I check the scores and times for u
 ## To Do
 
 * Eagles scores
-* Settings Page
-* Team Standings Page
+* Settings Page (save user data)
 * Better code
