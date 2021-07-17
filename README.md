@@ -32,7 +32,6 @@ Being an avid Philadelphia sports fan myself, I check the scores and times for u
 
 ## Notes
 
-* Phillies double-headers will not display correctly. It will only get info for the second game
 * Games lasting over midnight will not display correctly. Instead, it will show the upcoming game
 * Times are only in 24-hour format in EST
 * Scores reset at midnight
