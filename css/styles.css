@@ -1,25 +1,17 @@
 body {
-  min-width: 18rem;
+  min-width: 14rem;
   font-family: "IBM Plex Sans", sans-serif;
   font-size: 16;
   transition: 0.5s;
 }
-#main #toMain #settings {
-  padding: 0.5em;
-}
-h3 {
+
+.card h3 {
   color: grey;
   border-bottom: 1px solid grey;
 }
-.header {
-  display: flex;
-}
+
 #settings {
   margin-left: auto;
-}
-
-.header-icon {
-  transition: 0.5s;
 }
 
 .gamestatus {

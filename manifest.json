@@ -1,6 +1,6 @@
 {
     "name": "Only Philly Sports",
-    "version": "0.5.0.0",
+    "version": "0.5.0.1",
     "manifest_version": 2,
     "description": "Get times and scores for today's Philadelphia sports games.",
     "icons": {
