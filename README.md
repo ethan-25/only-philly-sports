@@ -5,13 +5,17 @@
 </sub>
   <br>
 Only Philly Sports
+  
 </h1>
+<p align="center">
+<sub>WIP</sub>
+  </p>
 
 ***
 
 <p align="center">
-<a href="https://microsoftedge.microsoft.com/addons/detail/abfhkhkibnnjcakeaogfnhcgiippfmge"><img src="https://user-images.githubusercontent.com/585534/107280673-a5ece780-6a26-11eb-9cc7-9fa9f9f81180.png" target="_blank" alt="OPS for Microsoft Edge"></a>
-  </p>
+<a href="https://microsoftedge.microsoft.com/addons/detail/abfhkhkibnnjcakeaogfnhcgiippfmge"><img src="https://user-images.githubusercontent.com/585534/107280673-a5ece780-6a26-11eb-9cc7-9fa9f9f81180.png" alt="OPS for MS Edge"></a>
+</p>
 
 ***
 
