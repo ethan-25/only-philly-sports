@@ -2,8 +2,9 @@ body {
   min-width: 18rem;
   font-family: "IBM Plex Sans", sans-serif;
   font-size: 16;
+  transition: 0.5s;
 }
-#main {
+#main #toMain #settings {
   padding: 0.5em;
 }
 h3 {
@@ -13,7 +14,7 @@ h3 {
 .header {
   display: flex;
 }
-#records {
+#settings {
   margin-left: auto;
 }
 

@@ -1,27 +1,23 @@
-/* 
-Getting today's date and assign variables to it. Each variable will have a different date format because
-the NBA endpoint utilizes a different date format to request data compared to the other ones.
-*/
 var today = new Date();
 var dd = String(today.getDate()).padStart(2, "0");
-var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 01
+var mm = String(today.getMonth() + 1).padStart(2, "0");
 var yyyy = today.getFullYear();
 
 today = yyyy + "-" + mm + "-" + dd;
 nbaToday = yyyy + mm + dd;
 
+console.log(`Fetching Philadelphia games for today, ${today}`);
+
 // API Endpoints for scheduled games in the NFL, NBA, MLB, and NHL
 nba = `http://data.nba.net/prod/v2/${nbaToday}/scoreboard.json`;
 
-mlb = `https://statsapi.mlb.com/api/v1/schedule?sportId=1&teamId=143&hydrate=team,linescore,game(content(summary,media(epg)),tickets)&language=en&startDate=${today}&endDate=${today}`;
+mlb = `https://statsapi.mlb.com/api/v1/schedule?&sportId=1&teamId=143&date=${today}&sortBy=gameDate&hydrate=team,linescore`;
 
-nhl = `https://statsapi.web.nhl.com/api/v1/schedule?startDate=${today}&endDate=${today}&useLatestGames=true&hydrate=team(),linescore,game(),&site=en_nhl&teamId=4&timecode=`;
+nhl = `https://statsapi.web.nhl.com/api/v1/schedule?startDate=${today}&endDate=${today}&hydrate=team,linescore&teamId=4`;
 
-// Logging today's date just to make sure everything's fine
-console.log(`Fetching Philadelphia games for today, ${today}`);
+// Function to convert the 24 hour time to 12 hour time. Will use this in the future
 
-// Function to convert the 24 hour time to 12 hour time.
-/** 
+/*
 function timeTo12(time) {
   var hours = time.slice(0, 2);
   var mins = time.slice(3, 5);
@@ -34,24 +30,6 @@ function timeTo12(time) {
   var hours = ((Number(hours) + 11) % 12) + 1;
 
   console.log(`${hours}:${mins} ${abb}`);
-}
-
-document.getElementById("toRecords").addEventListener("click", toggleRecords);
-
-function toggleRecords() {
-  var mainPage = document.getElementById("main");
-  var recordsPage = document.getElementById("records-page");
-  recordsPage.style.display = "block";
-  mainPage.style.display = "none";
-}
-
-document.getElementById("toMain").addEventListener("click", toggleMain);
-
-function toggleMain() {
-  var mainPage = document.getElementById("main");
-  var recordsPage = document.getElementById("records-page");
-  recordsPage.style.display = "none";
-  mainPage.style.display = "block";
 }
 */
 
@@ -88,7 +66,7 @@ fetch(nba)
           document.getElementById("nba-status").style.color = "red";
           document.getElementById(
             "nba-score"
-          ).textContent = `${away.triCode} ${away.score} - ${home.score} ${home.triCode}`;
+          ).textContent = `${away.score} - ${home.score}`;
           if (nbagames[game].gameDuration.minutes == "") {
             document.getElementById(
               "nba-status"
@@ -125,8 +103,6 @@ fetch(nba)
   });
 
 // Function to fetch Phillies and Flyers games today
-// Had to make a function because the JSON file format is the same for both api endpoints, would be more efficient to code this way
-// 21 May 2021, Recently added a parameter called league so code is more efficient in updating scores & times
 function NHLMLB(api, league) {
   fetch(api)
     .then((res) => res.json())
@@ -137,93 +113,81 @@ function NHLMLB(api, league) {
         var apigames = apidates[date].games;
 
         for (var game in apigames) {
-          // For each game in the JSON
           var away = apigames[game].teams.away.team;
           var home = apigames[game].teams.home.team;
 
-          if (
-            // If the Flyers or Phillies are playing today, set the names and logos of home and away team
-            home.abbreviation == "PHI" ||
-            away.abbreviation == "PHI"
+          document.getElementById(`${league}`).style.display = "block";
+
+          // Setting the logos. I wish they would have similar links to get them, but oh well
+          if (api == nhl) {
+            document.getElementById(
+              "nhl-away-logo"
+            ).src = `https://www-league.nhlstatic.com/images/logos/teams-current-primary-light/${away.id}.svg`;
+            document.getElementById(
+              "nhl-home-logo"
+            ).src = `https://www-league.nhlstatic.com/images/logos/teams-current-primary-light/${home.id}.svg`;
+          } else {
+            document.getElementsByClassName("mlb-away-logo")[
+              game
+            ].src = `https://www.mlbstatic.com/team-logos/${away.id}.svg`;
+            document.getElementsByClassName("mlb-home-logo")[
+              game
+            ].src = `https://www.mlbstatic.com/team-logos/${home.id}.svg`;
+          }
+          var awayScore = apigames[game].teams.away.score;
+          var homeScore = apigames[game].teams.home.score;
+
+          document.getElementById(
+            `${league}${game}-score`
+          ).textContent = `${awayScore} - ${homeScore}`;
+
+          if (apigames[game].status.detailedState == "Postponed") {
+            // Game postponed
+
+            document.getElementById(`${league}${game}-status`).textContent =
+              "Postponed";
+            document.getElementById(
+              `${league}${game}-score`
+            ).textContent = `${away.abbreviation} @ ${home.abbreviation}`;
+          } else if (
+            // Live game
+            apigames[game].status.detailedState == "In Progress" ||
+            apigames[game].status.detailedState == "In Progress - Critical"
           ) {
-            // Also display the score card
-            document.getElementById(`${league}`).style.display = "block";
+            linescore = apigames[game].linescore;
 
-            // Setting the logos. I wish they would have similar links to get them, but oh well
-            if (api == nhl) {
+            document.getElementById(`${league}${game}-status`).style.color =
+              "red";
+            if (league == "nhl") {
+              // NHL Score. Uses Period and Goals
               document.getElementById(
-                "nhl-away-logo"
-              ).src = `https://www-league.nhlstatic.com/images/logos/teams-current-primary-light/${away.id}.svg`;
-              document.getElementById(
-                "nhl-home-logo"
-              ).src = `https://www-league.nhlstatic.com/images/logos/teams-current-primary-light/${home.id}.svg`;
+                `${league}${game}-status`
+              ).textContent = `Period ${linescore.currentPeriod} | ${linescore.currentPeriodTimeRemaining}`;
             } else {
+              // MLB Score. Uses Inning and Runs
               document.getElementById(
-                "mlb-away-logo"
-              ).src = `https://www.mlbstatic.com/team-logos/${away.id}.svg`;
-              document.getElementById(
-                "mlb-home-logo"
-              ).src = `https://www.mlbstatic.com/team-logos/${home.id}.svg`;
+                `${league}${game}-status`
+              ).textContent = `${linescore.inningState} ${linescore.currentInningOrdinal}`;
             }
-            // Updating text in the card based on game condition
-            if (
-              // If the game is in progress, update the score
-              apigames[game].status.detailedState == "In Progress" ||
-              apigames[game].status.detailedState == "In Progress - Critical"
-            ) {
-              linescore = apigames[game].linescore;
+          } else if (
+            apigames[game].status.detailedState == "Game Over" ||
+            apigames[game].status.detailedState == "Final"
+          ) {
+            // Game over
 
-              document.getElementById(`${league}-status`).style.color = "red";
-              if (league == "nhl") {
-                // NHL Score. Uses Period and Goals
-                document.getElementById(
-                  `${league}-status`
-                ).textContent = `Period ${linescore.currentPeriod} | ${linescore.currentPeriodTimeRemaining}`;
-                document.getElementById(
-                  `${league}-score`
-                ).textContent = `${away.abbreviation} ${linescore.teams.away.goals} - ${linescore.teams.home.goals} ${home.abbreviation}`;
-              } else {
-                // MLB Score. Uses Inning and Runs
-                document.getElementById(
-                  `${league}-status`
-                ).textContent = `${linescore.inningState} ${linescore.currentInningOrdinal}`;
-                document.getElementById(
-                  `${league}-score`
-                ).textContent = `${away.abbreviation} ${linescore.teams.away.runs} - ${linescore.teams.home.runs} ${home.abbreviation}`;
-              }
-            } else if (apigames[game].status.detailedState == "Postponed") {
-              // If game is postponed, indicate it is
+            document.getElementById(`${league}${game}-status`).textContent =
+              "Final";
+          } else {
+            // Game not played yet
+            var time = new Date(apigames[game].gameDate);
+            var time24 = time.toString().slice(16, 21);
 
-              document.getElementById(`${league}-status`).textContent =
-                "Postponed";
-              document.getElementById(
-                `${league}-score`
-              ).textContent = `${away.abbreviation} @ ${home.abbreviation}`;
-            } else if (
-              apigames[game].status.detailedState == "Game Over" ||
-              apigames[game].status.detailedState == "Final"
-            ) {
-              // If the game is over, show the final scores
-
-              var awayScore = apigames[game].teams.away.score;
-              var homeScore = apigames[game].teams.home.score;
-
-              document.getElementById(`${league}-status`).textContent = "Final";
-              document.getElementById(
-                `${league}-score`
-              ).textContent = `${awayScore} - ${homeScore}`;
-            } else {
-              // Otherwise, set the time for today's game
-              var time = new Date(apigames[game].gameDate);
-              var time24 = time.toString().slice(16, 21);
-
-              document.getElementById(
-                `${league}-status`
-              ).textContent = `${time24} EST`;
-              document.getElementById(
-                `${league}-score`
-              ).textContent = `${away.abbreviation} @ ${home.abbreviation}`;
-            }
+            document.getElementById(
+              `${league}-${game}status`
+            ).textContent = `${time24} EST`;
+            document.getElementById(
+              `${league}${game}-score`
+            ).textContent = `${away.abbreviation} @ ${home.abbreviation}`;
           }
         }
       }
