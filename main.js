@@ -113,51 +113,46 @@ function NHLMLB(api, league) {
         var apigames = apidates[date].games;
 
         for (var game in apigames) {
-          var away = apigames[game].teams.away.team;
-          var home = apigames[game].teams.home.team;
-
-          document.getElementById(`${league}`).style.display = "block";
-
+          document.getElementById(`${league}${game}`).style.display = "block";
+          var away = apigames[game].teams.away;
+          var home = apigames[game].teams.home;
           // Setting the logos. I wish they would have similar links to get them, but oh well
           if (api == nhl) {
             document.getElementById(
               "nhl-away-logo"
-            ).src = `https://www-league.nhlstatic.com/images/logos/teams-current-primary-light/${away.id}.svg`;
+            ).src = `https://www-league.nhlstatic.com/images/logos/teams-current-primary-light/${away.team.id}.svg`;
             document.getElementById(
               "nhl-home-logo"
-            ).src = `https://www-league.nhlstatic.com/images/logos/teams-current-primary-light/${home.id}.svg`;
+            ).src = `https://www-league.nhlstatic.com/images/logos/teams-current-primary-light/${home.team.id}.svg`;
           } else {
             document.getElementsByClassName("mlb-away-logo")[
               game
-            ].src = `https://www.mlbstatic.com/team-logos/${away.id}.svg`;
+            ].src = `https://www.mlbstatic.com/team-logos/${away.team.id}.svg`;
             document.getElementsByClassName("mlb-home-logo")[
               game
-            ].src = `https://www.mlbstatic.com/team-logos/${home.id}.svg`;
+            ].src = `https://www.mlbstatic.com/team-logos/${home.team.id}.svg`;
           }
-          var awayScore = apigames[game].teams.away.score;
-          var homeScore = apigames[game].teams.home.score;
-
           document.getElementById(
             `${league}${game}-score`
-          ).textContent = `${awayScore} - ${homeScore}`;
+          ).textContent = `${away.score} - ${home.score}`;
 
           if (apigames[game].status.detailedState == "Postponed") {
             // Game postponed
-
             document.getElementById(`${league}${game}-status`).textContent =
               "Postponed";
             document.getElementById(
               `${league}${game}-score`
-            ).textContent = `${away.abbreviation} @ ${home.abbreviation}`;
+            ).textContent = `${away.team.abbreviation} @ ${home.team.abbreviation}`;
           } else if (
-            // Live game
             apigames[game].status.detailedState == "In Progress" ||
             apigames[game].status.detailedState == "In Progress - Critical"
           ) {
+            // Live game
             linescore = apigames[game].linescore;
 
             document.getElementById(`${league}${game}-status`).style.color =
               "red";
+
             if (league == "nhl") {
               // NHL Score. Uses Period and Goals
               document.getElementById(
@@ -174,7 +169,6 @@ function NHLMLB(api, league) {
             apigames[game].status.detailedState == "Final"
           ) {
             // Game over
-
             document.getElementById(`${league}${game}-status`).textContent =
               "Final";
           } else {
@@ -183,11 +177,11 @@ function NHLMLB(api, league) {
             var time24 = time.toString().slice(16, 21);
 
             document.getElementById(
-              `${league}-${game}status`
+              `${league}${game}-status`
             ).textContent = `${time24} EST`;
             document.getElementById(
               `${league}${game}-score`
-            ).textContent = `${away.abbreviation} @ ${home.abbreviation}`;
+            ).textContent = `${away.team.abbreviation} @ ${home.team.abbreviation}`;
           }
         }
       }
