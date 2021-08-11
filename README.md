@@ -8,7 +8,7 @@ Only Philly Sports
   
 </h1>
 <p align="center">
-<sub>Still a work in progress. If there are any recent commits to this repo, that means an update should be coming soon!</sub>
+<sub>Still a work in progress. If there are any recent commits to this repo, that means an update should be coming within 7 business days (according to Microsoft).</sub>
   </p>
 
 ***
