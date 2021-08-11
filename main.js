@@ -143,16 +143,18 @@ function NHLMLB(api, league) {
             document.getElementById(
               `${league}${game}-score`
             ).textContent = `${away.team.abbreviation} @ ${home.team.abbreviation}`;
+          } else if (apigames[game].status.detailedState == "Delayed: Rain") {
+            // Rain delay
+            document.getElementById(`${league}${game}-status`).textContent =
+              "Rain Delay";
           } else if (
             apigames[game].status.detailedState == "In Progress" ||
             apigames[game].status.detailedState == "In Progress - Critical"
           ) {
             // Live game
             linescore = apigames[game].linescore;
-
             document.getElementById(`${league}${game}-status`).style.color =
               "red";
-
             if (league == "nhl") {
               // NHL Score. Uses Period and Goals
               document.getElementById(
