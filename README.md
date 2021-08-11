@@ -8,7 +8,7 @@ Only Philly Sports
   
 </h1>
 <p align="center">
-<sub>WIP</sub>
+<sub>Still a work in progress. If there are any recent commits to this repo, that means an update should be coming soon!</sub>
   </p>
 
 ***
@@ -28,8 +28,8 @@ Being an avid Philadelphia sports fan myself, I check the scores and times for u
 ## Features
 
 * Scheduled game times for the Sixers, Phillies, and Flyers (Eagles scores are a work in progress)
-* Live scores are updated after a refresh
-* Final scores posted at the end of each game
+* Live scores are updated after a refresh (aka click on the extension again)
+* Final scores posted at the end of a game
 
 ***
 
@@ -42,15 +42,15 @@ Being an avid Philadelphia sports fan myself, I check the scores and times for u
 
 ## Notes
 
-* Games lasting over midnight will not display correctly. Instead, it will show the upcoming game
-* Times are only in 24-hour format in EST
-* Scores reset at midnight
+* Games lasting over midnight will not display correctly. Instead, it will show the next game
+* Times are only in 24-hour format in EST (will have the option to change soon)
+* Cards reset at midnight
 * If no games are found for a team, the score card will not appear
 
 ***
 
 ## To Do
 
-* Eagles scores
+* Eagles card
 * Settings Page (save user data)
 * Better code
