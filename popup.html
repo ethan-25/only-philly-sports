@@ -14,6 +14,11 @@
   </head>
   <body>
     <div id="main">
+      <!--Alert Card-->
+      <div id="alert" class="card" style="display: block">
+        <p>No games today.</p>
+      </div>
+
       <!-- NFL score card -->
       <!--
   <div id="nfl" class="card">
@@ -43,7 +48,7 @@
 
       <!-- MLB score card -->
 
-      <div id="mlb" class="card" style="display: none">
+      <div id="mlb0" class="card" style="display: none">
         <h3>MLB</h3>
         <p id="mlb0-status" class="gamestatus"></p>
         <div class="score-container">
@@ -52,13 +57,15 @@
           <span id="mlb0-score"></span>
           <img class="logo mlb-home-logo" />
         </div>
-        <br />
-        <p id="mlb1-status" class="gamestatus"></p>
-        <div class="score-container">
+        <div id="mlb1" style="display: none">
           <br />
-          <img class="logo mlb-away-logo" />
-          <span id="mlb1-score"></span>
-          <img class="logo mlb-home-logo" />
+          <p id="mlb1-status" class="gamestatus"></p>
+          <div class="score-container">
+            <br />
+            <img class="logo mlb-away-logo" />
+            <span id="mlb1-score"></span>
+            <img class="logo mlb-home-logo" />
+          </div>
         </div>
       </div>
 

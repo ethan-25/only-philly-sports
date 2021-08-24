@@ -32,76 +32,6 @@ function timeTo12(time) {
   console.log(`${hours}:${mins} ${abb}`);
 }
 */
-
-// Fetching Sixers games for today
-fetch(nba)
-  .then((res) => res.json())
-  .then((out) => {
-    var nbagames = out.games;
-
-    for (var game in nbagames) {
-      // For each game in the JSON
-      if (
-        // If the Sixers are in either home or away, set found to true and set up the home and away logos
-        nbagames[game].hTeam.triCode == "PHI" ||
-        nbagames[game].vTeam.triCode == "PHI"
-      ) {
-        document.getElementById("nba").style.display = "block";
-
-        var home = nbagames[game].hTeam;
-        var away = nbagames[game].vTeam;
-
-        document.getElementById(
-          "nba-away-logo"
-        ).src = `https://cdn.nba.com/logos/nba/${away.teamId}/primary/L/logo.svg`;
-        document.getElementById(
-          "nba-home-logo"
-        ).src = `https://cdn.nba.com/logos/nba/${home.teamId}/primary/L/logo.svg`;
-
-        if (
-          nbagames[game].isGameActivated == true &&
-          nbagames[game].period.current >= 1
-        ) {
-          // If the game is live, get the live score and live time
-          document.getElementById("nba-status").style.color = "red";
-          document.getElementById(
-            "nba-score"
-          ).textContent = `${away.score} - ${home.score}`;
-          if (nbagames[game].gameDuration.minutes == "") {
-            document.getElementById(
-              "nba-status"
-            ).textContent = `Quarter ${nbagames[game].period.current} | Starting`;
-          } else {
-            document.getElementById(
-              "nba-status"
-            ).textContent = `Quarter ${nbagames[game].period.current} | ${nbagames[game].clock}`;
-          }
-          if (nbagames[game].period.isHalftime == true) {
-            // If the game is at the half, set the status to Half
-            document.getElementById("nba-status").textContent = "Half";
-          }
-        } else {
-          if (nbagames[game].gameDuration.minutes == "") {
-            // If there is no game active, set the scheduled time and teams for tonight
-            var time = new Date(nbagames[game].startTimeUTC);
-            var time24 = time.toString().slice(16, 21);
-
-            document.getElementById(
-              "nba-score"
-            ).textContent = `${away.triCode} @ ${home.triCode}`;
-            document.getElementById("nba-status").textContent = `${time24} EST`;
-          } else {
-            // Else (game is over), set the final score
-            document.getElementById(
-              "nba-score"
-            ).textContent = `${away.score} - ${home.score}`;
-            document.getElementById("nba-status").textContent = "Final";
-          }
-        }
-      }
-    }
-  });
-
 // Function to fetch Phillies and Flyers games today
 function NHLMLB(api, league) {
   fetch(api)
@@ -114,6 +44,7 @@ function NHLMLB(api, league) {
 
         for (var game in apigames) {
           document.getElementById(`${league}${game}`).style.display = "block";
+          document.getElementById("alert").style.display = "none";
           var away = apigames[game].teams.away;
           var home = apigames[game].teams.home;
           // Setting the logos. I wish they would have similar links to get them, but oh well
@@ -189,7 +120,75 @@ function NHLMLB(api, league) {
       }
     });
 }
+// Fetching Sixers games for today
+fetch(nba)
+  .then((res) => res.json())
+  .then((out) => {
+    var nbagames = out.games;
 
+    for (var game in nbagames) {
+      // For each game in the JSON
+      if (
+        // If the Sixers are in either home or away, set found to true and set up the home and away logos
+        nbagames[game].hTeam.triCode == "PHI" ||
+        nbagames[game].vTeam.triCode == "PHI"
+      ) {
+        document.getElementById("nba").style.display = "block";
+        document.getElementById("alert").style.display = "none";
+
+        var home = nbagames[game].hTeam;
+        var away = nbagames[game].vTeam;
+
+        document.getElementById(
+          "nba-away-logo"
+        ).src = `https://cdn.nba.com/logos/nba/${away.teamId}/primary/L/logo.svg`;
+        document.getElementById(
+          "nba-home-logo"
+        ).src = `https://cdn.nba.com/logos/nba/${home.teamId}/primary/L/logo.svg`;
+
+        if (
+          nbagames[game].isGameActivated == true &&
+          nbagames[game].period.current >= 1
+        ) {
+          // If the game is live, get the live score and live time
+          document.getElementById("nba-status").style.color = "red";
+          document.getElementById(
+            "nba-score"
+          ).textContent = `${away.score} - ${home.score}`;
+          if (nbagames[game].gameDuration.minutes == "") {
+            document.getElementById(
+              "nba-status"
+            ).textContent = `Quarter ${nbagames[game].period.current} | Starting`;
+          } else {
+            document.getElementById(
+              "nba-status"
+            ).textContent = `Quarter ${nbagames[game].period.current} | ${nbagames[game].clock}`;
+          }
+          if (nbagames[game].period.isHalftime == true) {
+            // If the game is at the half, set the status to Half
+            document.getElementById("nba-status").textContent = "Half";
+          }
+        } else {
+          if (nbagames[game].gameDuration.minutes == "") {
+            // If there is no game active, set the scheduled time and teams for tonight
+            var time = new Date(nbagames[game].startTimeUTC);
+            var time24 = time.toString().slice(16, 21);
+
+            document.getElementById(
+              "nba-score"
+            ).textContent = `${away.triCode} @ ${home.triCode}`;
+            document.getElementById("nba-status").textContent = `${time24} EST`;
+          } else {
+            // Else (game is over), set the final score
+            document.getElementById(
+              "nba-score"
+            ).textContent = `${away.score} - ${home.score}`;
+            document.getElementById("nba-status").textContent = "Final";
+          }
+        }
+      }
+    }
+  });
 // Call the above function with appripriate parameters
 NHLMLB(mlb, "mlb");
 NHLMLB(nhl, "nhl");
